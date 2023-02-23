@@ -2,15 +2,15 @@ class Player
   def initialize
     @money = 100
     @cards = []
+  end
 
   def place_bet
     @money -= 10
-   end
+  end
 
   def get_win(bank)
     @money += bank
   end
 
-  def points
-  end
+  def points; end
 end
