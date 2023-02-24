@@ -18,6 +18,7 @@ class Player
     @cards.push(card)
   end
 
-  
-
+  def print_cards
+    @cards.map(&:to_s).join(' ')
+  end
 end
