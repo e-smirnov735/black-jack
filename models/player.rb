@@ -1,4 +1,6 @@
 class Player
+  attr_reader :money, :cards
+
   def initialize
     @money = 100
     @cards = []
@@ -12,5 +14,10 @@ class Player
     @money += bank
   end
 
-  def points; end
+  def take_card(card)
+    @cards.push(card)
+  end
+
+  
+
 end
