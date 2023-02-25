@@ -2,20 +2,24 @@ module Menu
   def main_menu
     {
       1 => { description: 'Пропустить',
-             action: -> { 'next step' } },
+             action: -> { dealer_step } },
       2 => { description: 'Добавить карту',
-             action: -> { 'add card' } },
+             action: -> { take_card } },
       3 => { description: 'Открыть карты',
-             action: -> { 'open card' } }
+             action: -> { check_result } }
     }
+  end
+
+  def middle_menu
+    main_menu.filter { |k, _v| k != 2 }
   end
 
   def final_menu
     {
       1 => { description: 'Следующий раунд',
-             action: -> { 'next step' } },
+             action: -> { next_round } },
       2 => { description: 'Закончить игру',
-             action: -> { 'add card' } }
+             action: -> { 'Спасибо за игру!' } }
     }
   end
 
