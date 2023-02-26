@@ -17,17 +17,24 @@ class Game
   end
 
   def start
-    @user.name ||= ask('What is your name? ')
-
-    @pack.shuffle
+    @user.name ||= ask('Как вас зовут? ')
     card_draw
-    start_menu(main_menu)
+
+    loop do
+      is_close = start_menu(main_menu)
+      break if is_close || (@user.cards.size == 3 && @dealer.cards.size == 3)
+    end
+
+    check_result
     start_menu(final_menu)
   end
 
+  private
+
   def card_draw
-    @user.place_bet
-    @dealer.place_bet
+    @pack.shuffle
+    @user.place_bet(BET)
+    @dealer.place_bet(BET)
 
     2.times do
       @user.take_card(@pack.take)
@@ -38,16 +45,24 @@ class Game
   end
 
   def take_card
-    puts 'вам добавлена карта'
+    if @user.cards.size > 2
+      puts 'Больше добавлять карты нельзя'
+      return
+    end
+
     @user.take_card(@pack.take)
     dealer_step
   end
 
+  def open_card
+    dealer_step if @dealer.cards.size < 3
+  end
+
   def dealer_step
-    puts 'Дилер делает ход'
+    return if @dealer.cards.size > 2
+
     score = calculate(@dealer.cards)
     @dealer.take_card(@pack.take) if @dealer.another_card?(score)
-    check_result
   end
 
   def next_round
@@ -63,8 +78,6 @@ class Game
     winner = who_wins(user_score, dealer_score)
     winner_calculate(winner)
   end
-
-  private
 
   def winner_calculate(winner)
     case winner
@@ -82,21 +95,19 @@ class Game
   end
 
   def print_result(win, lose, draw: false)
-    print_cards
+    puts "мои карты: #{@user.print_cards}, карты дилера: #{@dealer.print_cards}"
 
     if draw
       puts "DRAW! очков поровну - #{calculate(win.cards)}"
       return
     end
+
     puts "#{win.name} win! количество очков #{calculate(win.cards)} против #{calculate(lose.cards)}"
     puts "Balance: #{@user.name}: #{@user.money}, #{@dealer.name}: #{@dealer.money}"
   end
 
   def print_cards
-    puts "мои карты: #{@user.print_cards}, карты дилера: #{@dealer.print_cards}"
+    puts "мои карты: #{@user.print_cards}, карты дилера: #{@dealer.print_hidden_cards}"
     puts "количество очков: #{calculate(@user.cards)}"
   end
 end
-
-game = Game.new
-game.start

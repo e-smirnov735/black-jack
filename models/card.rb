@@ -1,4 +1,11 @@
 class Card
+  SYM = {
+    hearts: "\u2665",
+    spades: "\u2660",
+    diamonds: "\u2666",
+    clubs: "\u2663"
+  }.freeze
+
   attr_reader :suit, :rank
 
   def initialize(suit, rank)
@@ -7,6 +14,6 @@ class Card
   end
 
   def to_s
-    "#{@rank}#{@suit}"
+    "#{@rank}#{SYM[@suit]}"
   end
 end

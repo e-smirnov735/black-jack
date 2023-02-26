@@ -9,7 +9,11 @@ class Computer < Player
   end
 
   def print_cards
-    @cards.map(&:to_s).join(' ') #  @cards.map { |_c| '***' }.join(' ')
+    @cards.map(&:to_s).join(' ')
+  end
+
+  def print_hidden_cards
+    @cards.map { |_c| '***' }.join(' ')
   end
 
   def another_card?(score)

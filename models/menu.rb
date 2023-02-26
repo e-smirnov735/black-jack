@@ -6,12 +6,8 @@ module Menu
       2 => { description: 'Добавить карту',
              action: -> { take_card } },
       3 => { description: 'Открыть карты',
-             action: -> { check_result } }
+             action: -> { open_card } }
     }
-  end
-
-  def middle_menu
-    main_menu.filter { |k, _v| k != 2 }
   end
 
   def final_menu
@@ -28,8 +24,8 @@ module Menu
     choice = gets.chomp.to_i
     category = menu[choice]
     puts category[:description]
-
     category[:action].call
+    choice == 3
   end
 
   def show_menu(menu)

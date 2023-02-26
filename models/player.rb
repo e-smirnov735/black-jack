@@ -6,8 +6,8 @@ class Player
     @cards = []
   end
 
-  def place_bet
-    @money -= 10
+  def place_bet(bet)
+    @money -= bet
   end
 
   def get_win(bank)
