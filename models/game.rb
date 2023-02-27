@@ -90,7 +90,7 @@ class Game
     else
       @user.get_win(BET)
       @dealer.get_win(BET)
-      print_result(nil, nil, true)
+      print_result(@user, @dealer, true)
     end
   end
 
